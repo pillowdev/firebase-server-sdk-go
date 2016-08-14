@@ -1,6 +1,10 @@
 package firebase
 
-import "sync"
+import (
+	"sync"
+
+	"golang.org/x/net/context"
+)
 
 var authInstances = struct {
 	sync.Mutex
@@ -67,10 +71,10 @@ func (a *Auth) CreateCustomToken(uid string, developerClaims *Claims) (string, e
 // token is valid, meaning: the token is properly signed, has not expired,
 // and it was issued for the project associated with this Auth instance
 // (which by default is extracted from your service account).
-func (a *Auth) VerifyIDToken(tokenString string) (*Token, error) {
+func (a *Auth) VerifyIDToken(tokenString string, ctx context.Context) (*Token, error) {
 	if err := a.app.options.ensureServiceAccount(); err != nil {
 		return nil, err
 	}
 	projectID := a.app.options.ServiceAccountCredential.ProjectID
-	return verify(projectID, tokenString)
+	return verify(projectID, tokenString, ctx)
 }
