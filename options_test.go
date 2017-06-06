@@ -19,3 +19,9 @@ func TestEnsureServiceAccount(t *testing.T) {
 	assert.Equal(t, "myapp-dev@appspot.gserviceaccount.com", c.ClientEmail)
 	assert.NotNil(t, c.PrivateKey)
 }
+
+func TestEnsureProjectID(t *testing.T) {
+	o := &Options{}
+	err := o.ensureProjectID()
+	assert.EqualError(t, err, "ProjectID cannot be empty.")
+}

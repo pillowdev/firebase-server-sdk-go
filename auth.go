@@ -72,9 +72,9 @@ func (a *Auth) CreateCustomToken(uid string, developerClaims *Claims) (string, e
 // and it was issued for the project associated with this Auth instance
 // (which by default is extracted from your service account).
 func (a *Auth) VerifyIDToken(tokenString string, ctx context.Context) (*Token, error) {
-	if err := a.app.options.ensureServiceAccount(); err != nil {
+	if err := a.app.options.ensureProjectID(); err != nil {
 		return nil, err
 	}
-	projectID := a.app.options.ServiceAccountCredential.ProjectID
+	projectID := a.app.options.ProjectID
 	return verify(projectID, tokenString, ctx)
 }
