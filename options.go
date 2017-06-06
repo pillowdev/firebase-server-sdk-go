@@ -8,6 +8,8 @@ import (
 
 // Options is storage for configurable Firebase options.
 type Options struct {
+	// ProjectID is the project ID associated with the application.
+	ProjectID string
 	// ServiceAccountPath is the path to load the Service Account.
 	ServiceAccountPath string
 	// ServiceAccountCredential is the credential for the Service Account.
@@ -35,5 +37,13 @@ func (o *Options) ensureServiceAccount() error {
 		return err
 	}
 	o.ServiceAccountCredential = c
+	return nil
+}
+
+// ensureProjectID sets the Project ID associated with the Firebase Options.
+func (o *Options) ensureProjectID() error {
+	if o.ProjectID == "" {
+		return errors.New("ProjectID cannot be empty.")
+	}
 	return nil
 }
